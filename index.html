@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="KusaReMKN">
+<meta name="description"
+        content="うぇぶでえんこーだを利用すれば 完全オフラインで音声抽出・動画形式の変換ができます">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@KusaReMKN">
+<meta name="twitter:creator" content="@KusaReMKN">
+<meta property="og:url" content="https://kusaremkn.github.io/webdeenc/">
+<meta property="og:title" content="うぇぶでえんこーだ">
+<meta property="og:description"
+        content="うぇぶでえんこーだを利用すれば 完全オフラインで音声抽出・動画形式の変換ができます">
+<meta property="og:image" content="https://kusaremkn.github.io/webdeenc/img/webdeenc_twitter.png">
+<title>うぇぶでえんこーだ</title>
+<link rel="stylesheet" href="./css/new.css">
+<link rel="stylesheet" href="./css/mkn.css">
+<script src="./js/ffmpeg.min.js"></script>
+<script defer src="./js/webdeenc.js"></script>
+<style>
+.red { color: red; }
+.fill { width: 100%; }
+#droparea {
+        width: 100%; height: 10rem;
+        border: dotted; border-radius: 1rem;
+        display: grid; place-items: center;
+        margin-bottom: 1rem;
+        box-sizing: border-box;
+        background: var(--nc-bg-2);
+}
+#droparea p { text-align: center; }
+.strong { font-size: xx-large; font-weight: bold; }
+</style>
+</head>
+<body>
+<header>
+<h1>うぇぶでえんこーだ</h1>
+</header>
+<div style="text-align: center;">
+        <img src="./img/webdeenc.png" alt="うぇぶでえんこーだ のロゴ">
+</div>
+<p>
+<b>うぇぶでえんこーだ</b>はブラウザ上で動画・音声を変換します。
+変換は完全にウェブブラウザ上 (オフライン)
+で行われ、ファイルがインターネットに送信されることはありません。
+</p>
+<p>
+動画変換には時間がかかったり、変換中はパソコンの動作が重くなったりすることがあります。
+</p>
+<div>
+<video id="result" controls></video>
+</div>
+<div>
+<div id="droparea">
+        <p id="droptext">ここにファイルをドロップするか<br>↓選択してください↓</p>
+        <input type="file" id="source" accept="audio/*,video/*">
+</div>
+<label>変換先形式:
+<select id="enctype">
+        <optgroup label="音声のみ (音声抽出)">
+        <option value="mp3">mp3</option>
+        <option value="ogg">ogg</option>
+        <option value="m4a">m4a</option>
+        <option value="flac">flac</option>
+        <option value="wav">wav</option>
+        </optgroup>
+        <optgroup label="動画変換">
+        <option value="mp4">mp4</option>
+        <option value="mkv">mkv</option>
+        <option value="webm">webm</option>
+        <option value="mov">mov</option>
+        </optgroup>
+</select>
+</label>
+<button id="convert">変換</button>
+<button id="download">ダウンロード</button>
+<div>
+<output id="status">ファイルを選択してください...</output><br>
+<progress id="progress" value="0" style="width: 100%;"></progress>
+</div>
+<details>
+<summary>詳細設定</summary>
+<div>
+        <form name="sstoform">
+        <fieldset>
+        <legend>一部を切り取る</legend>
+        <div style="display: flex; flax-wrap: wrap; justify-content: space-around;">
+        <div>
+        <label><input type="radio" name="ss" value="none" checked> 最初から</label><br>
+        <label><input type="radio" name="ss" value="val">
+                <input type="text" id="ssval" placeholder="hh:mm:ss.ms"> から</label>
+        </div>
+        <div>
+        <label><input type="radio" name="to" value="none" checked> 最後まで</label><br>
+        <label><input type="radio" name="to" value="val">
+                <input type="text" id="toval" placeholder="hh:mm:ss.ms"> まで</label>
+        </div>
+        </div>
+        </fieldset>
+        </form>
+</div>
+<p>以下、一部の変換形式には対応していない場合があります</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-around;">
+        <form name="bvform">
+        <fieldset>
+        <legend>映像ビットレート (実験的)</legend>
+        <label><input type="radio" name="bv" value="none" checked> 指定なし</label><br>
+        <label><input type="radio" name="bv" value="val">
+                指定: <input type="text" id="bvval" value="2048k"></label>
+        </fieldset>
+        </form>
+        <form name="baform">
+        <fieldset>
+        <legend>音声ビットレート (実験的)</legend>
+        <label><input type="radio" name="ba" value="none" checked> 指定なし</label><br>
+        <label><input type="radio" name="ba" value="val">
+                指定: <input type="text" id="baval" value="192k"></label>
+        </fieldset>
+        </form>
+</div>
+</div>
+<hr>
+<h2>使い方</h2>
+<ol start="0">
+        <li class="red">
+                <del>パソコンの Google Chrome 以外のブラウザでは動作しません</del><br>
+                <ins>パソコンの Google Chrome か Firefox で動作確認済です</ins>
+        </li>
+        <li>変換したいファイルを選択してね</li>
+        <li>変換先の形式を選んでね</li>
+        <li>変換ボタンを押してね</li>
+        <li>頑張って変換するよ</li>
+        <li>変換が完了したら試聴できるよ</li>
+        <li>ダウンロードボタンを押してダウンロードできるよ</li>
+</ol>
+<hr>
+<h2>更新履歴</h2>
+<ul>
+        <li>2021-07-29: <b>一部を切り取る</b>機能を追加</li>
+        <li>2021-07-27: クロスオリジンﾅﾝﾁｬﾗのせいで動作しなくなっていたので修正</li>
+        <li>2021-05-05: こどもの日</li>
+        <li>2021-05-04: 開発開始</li>
+</ul>
+<hr>
+<footer>
+<div>
+        Written in 2021 May. Update in 2021 July.
+        Permanent ID of this document: <span class="tt">2475f9e635018e6d</span>.
+</div>
+<div>
+<a href="https://github.com/ffmpegwasm/ffmpeg.wasm">ffmpeg.wasm</a> &copy; 2019 Jerome Wu.
+</div>
+<div>
+Logo: <a href="https://aratama.github.io/kemonogen/">Kemono Friends Logo Generator</a>
+by <a href="https://twitter.com/cubbit2">@cubbit2</a>.
+</div>
+<div><small>
+&copy; 2021 KusaReMKN.
+特記無き場合、プログラム・ソースコードは MIT License で、それ以外のコンテンツは CC-BY 4.0
+で利用可能です。
+</small></div>
+</footer>
+</body>
+</html>

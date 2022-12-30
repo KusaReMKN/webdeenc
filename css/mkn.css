@@ -1,0 +1,11 @@
+.path { font-size: small; }
+.tt { font-family: var(--nc-font-mono); }
+footer { font-size: small; }
+footer small { font-size: inherit; }
+.footnote { font-size: small; }
+.flex { display: flex; flex-wrap: wrap; margin: auto -1rem; }
+.flex > * { margin: auto 1rem; flex-grow: 1; }
+.badge { margin: 0; }
+figure { text-align: center; }
+figure figcaption { text-align: center; font-size: smaller; }
+figure * { text-align: initial; }
